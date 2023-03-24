@@ -4,9 +4,12 @@
   "version": "1.0.0",
   "main": "index.js",
   "homepage": "https://github.com/yuriy-o/node-01/",
-  "devDependencies": {},
+  "type": "module",
   "dependencies": {
-    "nodemon": "^2.0.21"
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
