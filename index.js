@@ -1,20 +1,42 @@
-// const contacts = require('./contacts');
+// const argv = require('yargs').argv;
 
-// //TODO якись коментар
-// console.log(contacts);
+const { Command } = require('commander');
+const program = new Command();
+program
+  .option('-a, --action <type>', 'choose action')
+  .option('-i, --id <type>', 'user id')
+  .option('-n, --name <type>', 'user name')
+  .option('-e, --email <type>', 'user email')
+  .option('-p, --phone <type>', 'user phone');
 
-const express = require('express');
-const app = express();
+program.parse(process.argv);
 
-const PORT = 8081;
+const argv = program.opts();
 
-app.get('/home', (req, res) => {
-  res.sendStatus(200);
-});
+const contacts = require('./contacts');
 
-app.listen(PORT, err => {
-  if (err) {
-    console.error('Error at aserver launch:', err);
+// TODO: рефакторить
+function invokeAction({ action, id, name, email, phone }) {
+  switch (action) {
+    case 'list':
+      contacts.listContacts();
+      break;
+
+    case 'get':
+      contacts.getContactById(id);
+      break;
+
+    case 'remove':
+      contacts.removeContact(id);
+      break;
+
+    case 'add':
+      contacts.addContact(name, email, phone);
+      break;
+
+    default:
+      console.warn('\x1B[31m Unknown action type!');
   }
-  console.log(`Server works at port ${PORT}!`);
-});
+}
+
+invokeAction(argv);
